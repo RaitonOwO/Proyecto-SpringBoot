@@ -1,7 +1,7 @@
 package com.example.MiApp.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok0l, .*;
 
 import java.time.LocalDateTime;
 

@@ -1,4 +1,4 @@
-package com.example.MiApp.repository;
+    package com.example.MiApp.repository;
 
 import com.example.MiApp.entities.Publicacion;
 import com.example.MiApp.entities.Usuario;
