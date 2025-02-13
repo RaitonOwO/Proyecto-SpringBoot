@@ -9,7 +9,7 @@ import com.example.MiApp.repository.ReaccionRepository;
 import com.example.MiApp.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+
 
 @Service
 public class ReaccionService {
