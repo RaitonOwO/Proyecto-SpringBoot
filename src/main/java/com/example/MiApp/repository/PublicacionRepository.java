@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface PublicacionRepository extends JpaRepository<Publicacion, Long> {
     List<Publicacion> findByUsuario(Usuario usuario);
-    List<Publicacion> findAllByOrderByFechaCreacionDesc();
+    List<Publicacion> findAllByOrderByFechaCreacionDesc(); // Usa camel case
 }
