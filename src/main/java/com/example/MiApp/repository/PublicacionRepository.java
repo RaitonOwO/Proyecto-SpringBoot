@@ -1,4 +1,4 @@
-    package com.example.MiApp.repository;
+package com.example.MiApp.repository;
 
 import com.example.MiApp.entities.Publicacion;
 import com.example.MiApp.entities.Usuario;
@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface PublicacionRepository extends JpaRepository<Publicacion, Long> {
     List<Publicacion> findByUsuario(Usuario usuario);
-    List<Publicacion> findAllByOrderByFecha_creacionDesc();
+    List<Publicacion> findAllByOrderByFechaCreacionDesc();
 }

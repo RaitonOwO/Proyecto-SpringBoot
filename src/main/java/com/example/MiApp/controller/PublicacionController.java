@@ -2,27 +2,25 @@ package com.example.MiApp.controller;
 
 import com.example.MiApp.entities.Publicacion;
 import com.example.MiApp.service.PublicacionService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/publicaciones")
+@RequestMapping("/api/publicaciones")
 public class PublicacionController {
-
     private final PublicacionService publicacionService;
 
     public PublicacionController(PublicacionService publicacionService) {
         this.publicacionService = publicacionService;
     }
 
-
-    @PostMapping("/{idUsuario}")
-    public ResponseEntity<Publicacion> crearPublicacion(@PathVariable Long idUsuario, @RequestBody Publicacion publicacion) {
+    @PostMapping
+    public ResponseEntity<Publicacion> crearPublicacion(@RequestParam Long idUsuario, @RequestBody Publicacion publicacion) {
         Publicacion nuevaPublicacion = publicacionService.crearPublicacion(idUsuario, publicacion);
-        return ResponseEntity.ok(nuevaPublicacion);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevaPublicacion);
     }
 
     @GetMapping
@@ -37,8 +35,9 @@ public class PublicacionController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Publicacion> obtenerPublicacionPorId(@PathVariable Long id) {
-        Optional<Publicacion> publicacion = publicacionService.obtenerPublicacionPorId(id);
-        return publicacion.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return publicacionService.obtenerPublicacionPorId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @DeleteMapping("/{id}")
@@ -47,4 +46,3 @@ public class PublicacionController {
         return ResponseEntity.noContent().build();
     }
 }
-

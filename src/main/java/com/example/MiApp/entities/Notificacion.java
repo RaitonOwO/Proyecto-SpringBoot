@@ -6,13 +6,13 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "publicaciones")
+@Table(name = "notificaciones")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Publicacion {
+public class Notificacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,10 +21,14 @@ public class Publicacion {
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String texto;
+    private TipoNotificacion tipo;
 
-    private String imagenUrl;
+    @Column(name = "referencia_id", nullable = false)
+    private Long referenciaId;
+
+    private Boolean visto;
 
     @Column(name = "fecha_creacion", nullable = false, updatable = false)
     private LocalDateTime fechaCreacion;
@@ -32,5 +36,13 @@ public class Publicacion {
     @PrePersist
     protected void onCreate() {
         this.fechaCreacion = LocalDateTime.now();
+        this.visto = false;
+    }
+
+    public enum TipoNotificacion {
+        COMENTARIO,
+        ME_GUSTA,
+        MENCION,
+        SEGUIMIENTO
     }
 }
