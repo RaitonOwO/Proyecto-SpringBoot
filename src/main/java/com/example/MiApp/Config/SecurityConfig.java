@@ -17,6 +17,9 @@ import com.example.MiApp.JWT.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
 
+/**
+ * Configuración de seguridad para la aplicación.
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -25,6 +28,13 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authProvider;
 
+    /**
+     * Configura la cadena de filtros de seguridad.
+     *
+     * @param http La instancia de HttpSecurity.
+     * @return La cadena de filtros de seguridad configurada.
+     * @throws Exception Si ocurre un error en la configuración de seguridad.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -42,6 +52,11 @@ public class SecurityConfig {
             .build();
     }
 
+    /**
+     * Configura los orígenes de las solicitudes CORS.
+     *
+     * @return La fuente de configuración CORS configurada.
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
