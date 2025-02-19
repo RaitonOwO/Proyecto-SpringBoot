@@ -1,3 +1,6 @@
+-- Active: 1739902298079@@127.0.0.1@3306@mi_red_social
+
+
 -- 1️⃣ Eliminar la base de datos si ya existe
 DROP DATABASE IF EXISTS mi_red_social;
 CREATE DATABASE mi_red_social;
@@ -178,3 +181,4 @@ INSERT INTO notificaciones (usuario_id, tipo, referencia_id, visto, fecha_creaci
  (SELECT id FROM publicaciones WHERE texto = 'Hoy es un gran día para programar!'), FALSE, '2025-02-15 10:37:00'),
 ((SELECT id FROM usuarios WHERE nombre_usuario = 'carlitos'), 'comentario', 
  (SELECT id FROM comentarios WHERE texto = '¡Suena interesante!'), FALSE, '2025-02-15 11:30:00');
+    

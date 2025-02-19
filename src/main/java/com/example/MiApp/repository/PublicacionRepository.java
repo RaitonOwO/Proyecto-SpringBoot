@@ -1,3 +1,4 @@
+
 package com.example.MiApp.repository;
 
 import com.example.MiApp.entities.Publicacion;
@@ -10,5 +11,6 @@ import java.util.List;
 @Repository
 public interface PublicacionRepository extends JpaRepository<Publicacion, Long> {
     List<Publicacion> findByUsuario(Usuario usuario);
-    List<Publicacion> findAllByOrderByFechaCreacionDesc(); // Usa camel case
+    List<Publicacion> findAllByOrderByFechaCreacionDesc();
 }
+        

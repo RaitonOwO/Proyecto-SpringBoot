@@ -17,9 +17,6 @@ import com.example.MiApp.JWT.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
 
-/**
- * Configuración de seguridad para la aplicación.
- */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -31,10 +28,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Habilita CORS
-            .csrf(csrf -> csrf.disable()) // Desactiva CSRF (recomendado para APIs)
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authRequest -> authRequest
-                .anyRequest().permitAll()  // Permitir acceso a todos los endpoints sin autenticación
+                .requestMatchers("/api/**").permitAll() // Permite acceso público a publicaciones
+                .anyRequest().authenticated() // El resto requiere autenticación
             )
             .sessionManagement(sessionManager -> sessionManager
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -46,7 +44,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:5173"));  // Cambia a 3000 si es tu puerto de React
+        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);

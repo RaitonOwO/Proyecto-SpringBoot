@@ -1,3 +1,4 @@
+
 package com.example.MiApp.service;
 
 import com.example.MiApp.entities.Publicacion;
@@ -9,9 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Servicio para la gestión de publicaciones.
- */
 @Service
 public class PublicacionService {
     private final PublicacionRepository publicacionRepository;
@@ -22,59 +20,31 @@ public class PublicacionService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    /**
-     * Crea una nueva publicación de un usuario.
-     * 
-     * @param idUsuario El ID del usuario que crea la publicación.
-     * @param publicacion Los datos de la publicación.
-     * @return La publicación creada.
-     */
     public Publicacion crearPublicacion(Long idUsuario, Publicacion publicacion) {
         Usuario usuario = usuarioRepository.findById(idUsuario)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
 
         publicacion.setUsuario(usuario);
         return publicacionRepository.save(publicacion);
     }
 
-    /**
-     * Obtiene la lista de todas las publicaciones ordenadas por fecha de creación.
-     * 
-     * @return La lista de todas las publicaciones.
-     */
     public List<Publicacion> obtenerTodasLasPublicaciones() {
-        return publicacionRepository.findAllByOrderByFechaCreacionDesc();
+        try {
+            return publicacionRepository.findAllByOrderByFechaCreacionDesc();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener publicaciones", e);
+        }
     }
 
-    /**
-     * Obtiene la lista de publicaciones de un usuario por su ID.
-     * 
-     * @param idUsuario El ID del usuario.
-     * @return La lista de publicaciones del usuario.
-     */
-    public List<Publicacion> obtenerPublicacionesDeUsuario(Long idUsuario) {
-        Usuario usuario = usuarioRepository.findById(idUsuario)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-        return publicacionRepository.findByUsuario(usuario);
-    }
-
-    /**
-     * Obtiene una publicación por su ID.
-     * 
-     * @param id El ID de la publicación.
-     * @return Un Optional con la publicación si existe, de lo contrario un Optional vacío.
-     */
     public Optional<Publicacion> obtenerPublicacionPorId(Long id) {
         return publicacionRepository.findById(id);
     }
 
-    /**
-     * Elimina una publicación por su ID.
-     * 
-     * @param id El ID de la publicación.
-     */
     public void eliminarPublicacion(Long id) {
+        if (!publicacionRepository.existsById(id)) {
+            throw new IllegalArgumentException("Publicación no encontrada");
+        }
         publicacionRepository.deleteById(id);
     }
 }
+      
